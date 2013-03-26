@@ -3,26 +3,12 @@
   <head>
     <meta charset="utf-8">
     <title>Hullo World!</title>
-  </head>
-  <body>
-
     <!--
-      The two following tags (<noscript> and <script>) are useful only when
-        * Javascript is disabled
-        * The page is served as a local file (file://path/to/index.html) instead of an HTTP server (http://domain/path/to/index.html)
-      You can safely remove them when your server is setup
+      The following tag is useful only when
+        * The page is served as a local file (eg, file://path/to/index.html) instead of an HTTP server (eg, http://domain.tld/path/to/index.html)
+      You can safely remove it when your server is setup.
     -->
-    <noscript>Javascript is required in order to use <a href="http://hull.io">Hull</a>. Please activate it.</noscript>
     <script>if(!~window.location.protocol.indexOf('http')){document.body.innerHTML = '<h1>Hey dude, it seems you\'re trying to run the app as a file!</h1><h2><a href="http://hull.io" target="_blank">Hull</a> applications must be served fron an HTTP server. Here\'s what you can do:</h2><ul><li>First of all, go to the directory where index.html is located<pre>cd /path/to/index.html</pre></li><li>If you have <strong><a href="http://www.ruby-lang.org/" target="_blank">Ruby</a></strong> installed, the simplest is to run:<pre>ruby -rwebrick -e\'WEBrick::HTTPServer.new(:Port => 8000, :DocumentRoot => Dir.pwd).start\'</pre></li><li>If you have <strong><a href="http://www.python.org/" target="_blank">Python</a></strong> installed, the simplest is to run:<pre>python -m SimpleHTTPServer 8000</pre></li><li>If you have <strong><a href="http://www.php.net/" target="_blank">PHP 5.4+</a></strong> installed, the simplest is to run:<pre>php -S localhost:8000</pre></li><li>If you have <strong><a href="http://www.nodejs.org/" target="_blank">Node.js</a></strong> installed, the simplest is to run:<pre>npm install -g node-static;//Run this one only once\nstatic -p 8000 .</pre></li><li>Then point your browser to <a href="http://localhost:8000" target="_blank">http://localhost:8000</a></li></ul><br><p>Otherwise, if you have an HTTP server like <strong><a href="http://httpd.apache.org/" target="_blank">Apache</a></strong> or <strong><a href="http://nginx.org/en/" target="_blank">nginx</a></strong>, the simplest is to serve the directory containing this file (index.html) directly from the server.</p>';}</script>
-
-
-    <!--
-      The following <div> tag instanciates the widget "hullo".
-      The widget is defined in widgets/hullo directory.
-      Its definition is automagically fetched by hull.js
-    -->
-    <div data-hull-widget="identity@hull"></div>
-    <div data-hull-widget="hullo"></div>
 
     <!--
       The three following <script> tags are mandatory for having your Hull application to start and execute properly.
@@ -35,10 +21,29 @@
        * Without calling Hull.init, your app will _never_ start
        */
       Hull.init({
+        // debug: true, // Uncomment this line to display more logs in the console
         appId: "%%YOUR_APPLICATION_ID%%",
         orgUrl: "%%YOUR_ORGANIZATION_URL%%"
       });
     </script>
+
+  </head>
+  <body>
+
+    <!--
+      The following tag is useful only when
+        * Javascript is disabled
+      It is not mandatory, you can safely remove it if it feels unnecessary
+    -->
+    <noscript>Javascript is required in order to use <a href="http://hull.io">Hull</a>. Please activate it.</noscript>
+
+    <!--
+      The following <div> tag instanciates the widget "hullo".
+      The widget is defined in widgets/hullo directory.
+      Its definition is automagically fetched by hull.js
+    -->
+    <div data-hull-widget="identity@hull"></div>
+    <div data-hull-widget="hullo"></div>
   </body>
 </html>
 
