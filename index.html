@@ -38,11 +38,17 @@
     <noscript>Javascript is required in order to use <a href="http://hull.io">Hull</a>. Please activate it.</noscript>
 
     <!--
+      The following <div> tag instanciates the widget "identity".
+      The code and template for this widget are fetched from the "hull" source
+      (shown by the "@hull" in the name) 
+    -->
+    <div data-hull-widget="identity@hull"></div>
+
+    <!--
       The following <div> tag instanciates the widget "hullo".
       The widget is defined in widgets/hullo directory.
       Its definition is automagically fetched by hull.js
     -->
-    <div data-hull-widget="identity@hull"></div>
     <div data-hull-widget="hullo"></div>
   </body>
 </html>
