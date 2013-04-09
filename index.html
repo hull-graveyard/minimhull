@@ -13,6 +13,7 @@
     <!--
       The three following <script> tags are mandatory for having your Hull application to start and execute properly.
     -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script src="//hull-js.s3.amazonaws.com/develop/hull.js"></script>
     <script>
@@ -23,7 +24,7 @@
       Hull.init({
         // debug: true, // Uncomment this line to display more logs in the console
         appId: "%%YOUR_APPLICATION_ID%%",
-        orgUrl: "%%YOUR_ORGANIZATION_URL%%"
+        orgUrl: "%%YOUR_ORGANIZATION_URL%%"      
       });
     </script>
 
@@ -37,19 +38,23 @@
     -->
     <noscript>Javascript is required in order to use <a href="http://hull.io">Hull</a>. Please activate it.</noscript>
 
-    <!--
-      The following <div> tag instanciates the widget "identity".
-      The code and template for this widget are fetched from the "hull" source
-      (shown by the "@hull" in the name) 
-    -->
-    <div data-hull-widget="identity@hull"></div>
+    <div class="container">
+    
+        <!--
+          The following <div> tag instanciates the widget "identity".
+          The code and template for this widget are fetched from the "hull" source
+          (shown by the "@hull" in the name) 
+        -->
+        <div class="well" data-hull-widget="identity@hull"></div>
 
-    <!--
-      The following <div> tag instanciates the widget "hullo".
-      The widget is defined in widgets/hullo directory.
-      Its definition is automagically fetched by hull.js
-    -->
-    <div data-hull-widget="hullo"></div>
+        <!--
+          The following <div> tag instanciates the widget "hullo".
+          The widget is defined in widgets/hullo directory.
+          Its definition is automagically fetched by hull.js
+        -->
+        <div class="well" data-hull-widget="hullo"></div>
+    
+    </div>
   </body>
 </html>
 
