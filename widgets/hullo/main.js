@@ -12,7 +12,7 @@ Hull.widget("hullo", {
    */
   templates: ['hullo'],
   /**
-   * The `refreshEvents` preperty automatically triggers the `render` method of the widget,
+   * The `refreshEvents` property automatically triggers the `render` method of the widget,
    * with the effect of redrawing the whole widget.
    * It takes an array as parameter, each element of which being the name of an event.
    *
