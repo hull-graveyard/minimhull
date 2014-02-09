@@ -4,30 +4,23 @@ Download or clone this application to bootstrap your [hull.io][hio] project.
 
 ## What is included ?
 
-Almost nothing, only the necessary! In greater details, you will find:
-
-* An `index.html` that runs a [hull.io][hio] application
-* A `hullo` widget, containing a simplistic template
-* An example of the prepackaged `identity` widget to authenticate your users
-* Many, many comments to help you get you started with ease!
+Almost nothing, only the necessary! In greater details, you will find an `index.html` that runs a [hull.io][hio] application, creates a test user and a comment on a "TestObject" [entity](http://hull.io/docs/social/entities)
 
 ## Requirements
 
 * A [hull.io][hio] account.
-  If you don't have one, you can register on the [homepage][hio] or try to get one by playing our game [Hullinstant][hullinstant].
-* The credentials for an [hull.io][hio] application, which you can create in the administration of [hull.io][admin]
-* An HTTP server, to serve the files included in this repository. If you're not sure how to do it, check out [our guide](https://github.com/hull/minimhull/wiki/Setup-an-HTTP-server)
+  If you don't have one, you can [register now for free][dashboard]
+* The credentials for an application, which you can get in the App's page for your [dashboard][dashboard]
+* An HTTP server, to serve the files included in this repository. If you're not sure how to do it, check out [our guide](http://hull.io/docs/apps/serve)
 
 ## Getting started
 
 In `index.html`, replace:
 
-* `%%YOUR_APPLICATION_ID%%` with the **Application ID** of your [hull.io][hio] application.
-* `%%YOUR_ORGANIZATION_URL%%` with the **Organization URL** of your [hull.io][hio] application.
+* `YOUR_APP_ID` with the **Application ID** of your hull application.
+* `YOUR_ORGANIZATION_URL` with your **Organization URL**, found in your [dashboard][dashboard].
 
 That's all, folks! If you have any questions regarding [hull.io][hio], feel free to contact us at [contact@hull.io](mailto:contact@hull.io).
 
 [hio]: http://hull.io
-[admin]: http://alpha.hullapp.io
-[hullinstant]: http://hull.github.com/hullinstant/
-
+[dashboard]: http://accounts.hullapp.io

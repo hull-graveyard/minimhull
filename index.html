@@ -1,60 +1,144 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Hullo World!</title>
-    <!--
-      The following tag is useful only when
-        * The page is served as a local file (eg, file://path/to/index.html) instead of an HTTP server (eg, http://domain.tld/path/to/index.html)
-      You can safely remove it when your server is setup.
-    -->
-    <script>if(!~window.location.protocol.indexOf('http')){document.body.innerHTML = '<h1>Hey dude, it seems you\'re trying to run the app as a file!</h1><h2><a href="http://hull.io" target="_blank">Hull</a> applications must be served fron an HTTP server. Here\'s what you can do:</h2><ul><li>First of all, go to the directory where index.html is located<pre>cd /path/to/index.html</pre></li><li>If you have <strong><a href="http://www.ruby-lang.org/" target="_blank">Ruby</a></strong> installed, the simplest is to run:<pre>ruby -rwebrick -e\'WEBrick::HTTPServer.new(:Port => 8000, :DocumentRoot => Dir.pwd).start\'</pre></li><li>If you have <strong><a href="http://www.python.org/" target="_blank">Python</a></strong> installed, the simplest is to run:<pre>python -m SimpleHTTPServer 8000</pre></li><li>If you have <strong><a href="http://www.php.net/" target="_blank">PHP 5.4+</a></strong> installed, the simplest is to run:<pre>php -S localhost:8000</pre></li><li>If you have <strong><a href="http://www.nodejs.org/" target="_blank">Node.js</a></strong> installed, the simplest is to run:<pre>npm install -g node-static;//Run this one only once\nstatic -p 8000 .</pre></li><li>Then point your browser to <a href="http://localhost:8000" target="_blank">http://localhost:8000</a></li></ul><br><p>Otherwise, if you have an HTTP server like <strong><a href="http://httpd.apache.org/" target="_blank">Apache</a></strong> or <strong><a href="http://nginx.org/en/" target="_blank">nginx</a></strong>, the simplest is to serve the directory containing this file (index.html) directly from the server.</p>';}</script>
 
-    <!--
-      The three following <script> tags are mandatory for having your Hull application to start and execute properly.
-    -->
-    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+<head>
+    <meta charset="utf-8">
+
+    <title>Hullo World!</title>
+    <meta name="description" content="Hullo, world!">
+    <meta name="viewport" content="width=device-width">
+
+    <!-- Those are optional too, just here for the demo. Remove if you don't need them -->
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-    <script src="//hull-js.s3.amazonaws.com/develop/hull.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+
+
+    <!-- Now the real stuff begings. This is mandatory -->
+    <script src="https://d3f5pyioow99x0.cloudfront.net/0.8/hull.api.js"></script>
     <script>
-      /**
-       * This command is required for your app to launch.
-       * Without calling Hull.init, your app will _never_ start
-       */
-      Hull.init({
-        // debug: true, // Uncomment this line to display more logs in the console
-        appId: "%%YOUR_APPLICATION_ID%%",
-        orgUrl: "%%YOUR_ORGANIZATION_URL%%"      
-      });
+
+    // Before calling any Hull method, ensure Initialization is complete.
+    Hull.init({
+        debug: true, // Comment this line to stop displaying debugging information
+        orgUrl: "YOUR_ORGANIZATION_URL",
+        appId: "YOUR_APP_ID"
+    }, function(hull, me, app, org) {
+        //Hull is initialized, This is where you start your app.
+        //Create a test user, then make him post a comment on an object.
+        if(me){
+          retrieveComments();
+        } else {
+          Hull.signup({
+            email:'user@host.com',
+            password:'test_password',
+            name: 'Test user',
+            picture: 'http://placehold.it/100x100'
+          }).then(function(user){
+
+            postComment();
+
+          }).fail(handleSignupError);
+        }
+    });
+
+    //Handle signup error with email already taken.
+    var handleSignupError = function(error){
+      if(error && error.errors && error.errors.email && error.errors.email[0]=="is already taken"){
+        Hull.login('user@host.com','test_password').then(handleSuccess).fail(handleError);
+      }
+    }
+
+    // Post a comment on 'TestObject'
+    var postComment = function() {
+      var testObjectEntity = Hull.util.entity.encode('TestObject');
+
+      Hull.api(testObjectEntity + '/comments', 'post', {
+          description: 'Hullo, world',
+      }).then(handleSuccess).fail(handleError);
+    };
+
+
+    var handleSuccess = function(response) {
+      $('#success').removeClass('hidden');
+      $('#success_output').html(JSON.stringify(response, null, 2));
+    };
+
+    var  handleError = function(error){
+      $('#error').removeClass('hidden');
+      $('#error_output').html(JSON.stringify(error,null,2));
+    }
+
+    // Retreive comments on the entity, and display them
+    var retrieveComments = function(){
+      var testObjectEntity = Hull.util.entity.encode('TestObject');
+
+      Hull.api(testObjectEntity + '/comments').then(function(comments){
+        handleSuccess(comments[0]);
+      }).fail(handleError);
+    }
+
+
+
     </script>
 
-  </head>
-  <body>
+</head>
 
-    <!--
-      The following tag is useful only when
-        * Javascript is disabled
-      It is not mandatory, you can safely remove it if it feels unnecessary
-    -->
-    <noscript>Javascript is required in order to use <a href="http://hull.io">Hull</a>. Please activate it.</noscript>
+<body>
+  <div class="container">
+      <div class="col-md-6">
+        <div id="error" class="hidden">
+          <h3>Something went wrong!</h3>
+          <p>It looks like an error occured when trying to create the test comment or log you in. Here are more details:</p>
+          <pre><code id='error_output'></code></pre>
+        </div>
+        <div id="success" class="hidden">
+          <h3>Hull is ready!</h3>
+          <p>We signed up a test user with the following credentials and logged you in with it.</p>
 
-    <div class="container">
-    
-        <!--
-          The following <div> tag instanciates the widget "identity".
-          The code and template for this widget are fetched from the "hull" source
-          (shown by the "@hull" in the name) 
-        -->
-        <div class="well" data-hull-widget="identity@hull"></div>
+          <ul>
+            <li><strong>email</strong> : user@host.com</li>
+            <li><strong>password</strong> : test_password</li>
+          </ul>
 
-        <!--
-          The following <div> tag instanciates the widget "hullo".
-          The widget is defined in widgets/hullo directory.
-          Its definition is automagically fetched by hull.js
-        -->
-        <div class="well" data-hull-widget="hullo"></div>
-    
+<pre><code>Hull.signup({
+  email:'user@host.com',
+  password:'test_password',
+  name: 'Test user',
+  picture: 'http://placehold.it/100x100'
+})</code></pre>
+
+        <p>Then we created your first comment on the <a href='http://hull.io/docs/social/entities'>Entity</a> "TestObject" with this code:</p>
+
+<pre><code>var testObjectEntity = Hull.util.entity.encode('TestObject');
+
+Hull.api(testObjectEntity + '/comments', 'post', {
+    description: 'Hullo, world',
+});</code></pre>
+
+        <p>Here is the response: </p>
+        <pre><code id='success_output'></code></pre>
+      </div>
     </div>
-  </body>
-</html>
 
+    <div class="col-md-6">
+      <h3>Read the docs and start building:</h3>
+      <ul>
+        <li><a href='http://hull.io/docs/start'>Quickstart</a></li>
+        <li><a href='http://hull.io/docs/references/hull_js'>Hull.js Reference</a></li>
+        <li><a href='http://hull.io/docs/users'>User authentication</a></li>
+        <li><a href='http://hull.io/docs/social'>Social Actions</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    // This is used only when the page is served as a local file (eg, file://path/to/index.html)
+    // instead of an HTTP server (eg, http://domain.tld/path/to/index.html).
+    // Remove it when your server is setup.
+    if (!~window.location.protocol.indexOf('http')) {
+      document.body.innerHTML = '<h1>It seems you\'re trying to run the app as a file.</h1><p>Hull apps must be served fron an HTTP server. <a href="http://hull.io/docs/apps/serve" target="_blank">How do I do this?</a></p>';
+    }
+  </script>
+</body>
+</html>
